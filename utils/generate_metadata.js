@@ -61,60 +61,7 @@ const draw = (_imgObject) => {
   ctx.drawImage(_imgObject.loadedImage, 0, 0, w, h);
 };
 
-const addRarity = () => {
-  let w = canvas.width;
-  let h = canvas.height;
-  let i = -4;
-  let count = 0;
-  let imgdata = ctx.getImageData(0, 0, w, h);
-  let rgb = imgdata.data;
-  let newRgb = { r: 0, g: 0, b: 0 };
-  const tolerance = 15;
-  const rareColorBase = "NOT a Hot Dog";
-  const rareColor = [
-    { name: "Hot Dog", rgb: { r: 192, g: 158, b: 131 } },
-    { name: "Hot Dog", rgb: { r: 128, g: 134, b: 90 } },
-    { name: "Hot Dog", rgb: { r: 113, g: 65, b: 179 } },
-    { name: "Hot Dog", rgb: { r: 162, g: 108, b: 67 } },
-  ];
 
-  while ((i += 10 * 4) < rgb.length) {
-    ++count;
-    newRgb.r += rgb[i];
-    newRgb.g += rgb[i + 1];
-    newRgb.b += rgb[i + 2];
-  }
-
-  newRgb.r = ~~(newRgb.r / count);
-  newRgb.g = ~~(newRgb.g / count);
-  newRgb.b = ~~(newRgb.b / count);
-
-  let rarity = rareColorBase;
-
-  rareColor.forEach((color) => {
-    if (isNeighborColor(newRgb, color.rgb, tolerance)) {
-      rarity = color.name;
-    }
-  });
-
-  console.log(newRgb);
-  console.log(rarity);
-
-  return [
-    {
-      trait_type: "average color",
-      value: `rgb(${newRgb.r},${newRgb.g},${newRgb.b})`,
-    },
-    {
-      trait_type: "What is this?",
-      value: rarity,
-    },
-    {
-      trait_type: "date",
-      value: randomIntFromInterval(1500, 1900),
-    },
-  ];
-};
 
 randomIntFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -135,16 +82,71 @@ const saveMetadata = (_loadedImageObject) => {
   );
 
   let tempAttributes = [];
-  tempAttributes.push(addRarity());
 
   let tempMetadata = {
-    name: `${namePrefix} #${shortName}`,
-    description: description,
+    name: `FACELESS HOVERBOARD NFT`,
+    description: "FACELESS HOVERBOARD NFT\n(RARITIES, CHARACTERISTICS, TRAITS, PROPERTIES)\n\n\nExplore the Metaverse like never before with this 1 of 1 hoverboard NFTs that seamlessly integrate with popular Metaverse platforms.\n\n\nEach Hoverboard carries its avatars' signature texture as provenance.\n\n\nFeatures:\nFully rigged, game ready hoverboards\nLED lights for added style and visibility\n\n\nAttributes - Faceless Texture # 669\nRarity - 1%\n\n\nQUANTITY - 208 HOVERBOARD NFTS",
     image: `${baseUri}/${shortName}.png`,
     edition: Number(shortName),
     attributes: tempAttributes,
     compiler: "HashLips Art Engine",
   };
+
+  const addRarity = () => {
+    let w = canvas.width;
+    let h = canvas.height;
+    let i = -4;
+    let count = 0;
+    let imgdata = ctx.getImageData(0, 0, w, h);
+    let rgb = imgdata.data;
+    let newRgb = { r: 0, g: 0, b: 0 };
+    const tolerance = 15;
+    const rareColorBase = "NOT a Hot Dog";
+    const rareColor = [
+      { name: "Hot Dog", rgb: { r: 192, g: 158, b: 131 } },
+      { name: "Hot Dog", rgb: { r: 128, g: 134, b: 90 } },
+      { name: "Hot Dog", rgb: { r: 113, g: 65, b: 179 } },
+      { name: "Hot Dog", rgb: { r: 162, g: 108, b: 67 } },
+    ];
+
+    while ((i += 10 * 4) < rgb.length) {
+      ++count;
+      newRgb.r += rgb[i];
+      newRgb.g += rgb[i + 1];
+      newRgb.b += rgb[i + 2];
+    }
+
+    newRgb.r = ~~(newRgb.r / count);
+    newRgb.g = ~~(newRgb.g / count);
+    newRgb.b = ~~(newRgb.b / count);
+
+    let rarity = rareColorBase;
+
+    rareColor.forEach((color) => {
+      if (isNeighborColor(newRgb, color.rgb, tolerance)) {
+        rarity = color.name;
+      }
+    });
+
+    console.log(newRgb);
+    console.log(rarity);
+    return [
+      {
+        trait_type: "Faceless Texture",
+        value: `# ${tempMetadata.edition}`,
+      },
+      {
+        trait_type: "Rarity",
+        value: `1%`,
+      },
+      {
+        trait_type: "QUANTITY",
+        value: "208 HOVERBOARD NFTS",
+      },
+    ];
+  };
+  tempAttributes.push(addRarity());
+
   fs.writeFileSync(
     `${buildDir}/${shortName}.json`,
     JSON.stringify(tempMetadata, null, 2)
