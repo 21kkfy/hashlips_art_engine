@@ -5,9 +5,9 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "FACELESS HOVERBOARD NFT";
+const description = "FACELESS HOVERBOARD NFT\n(RARITIES, CHARACTERISTICS, TRAITS, PROPERTIES)\n\n\nExplore the Metaverse like never before with this 1 of 1 hoverboard NFTs that seamlessly integrate with popular Metaverse platforms.\n\n\nEach Hoverboard carries its avatars' signature texture as provenance.\n\n\nFeatures:\nFully rigged, game ready hoverboards\nLED lights for added style and visibility\n\n\nAttributes - Faceless Texture # 669\nRarity - 1%\n\n\nQUANTITY - 208 HOVERBOARD NFTS";
+const baseUri = "ipfs://bafybeid4sebmfft6drxmmqn72ey3ovfxcvbsdsktk7xsgql5sqt6mykit4";
 
 const solanaMetadata = {
   symbol: "YC",
